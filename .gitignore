@@ -1,0 +1,47 @@
+# Go related
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Dependency directories
+vendor/
+uploads/
+output/
+
+# Environment variables
+.env
+
+# IDE/editor specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# Binaries
+bin/
+build/
+
+# Cache and generated files
+**/.DS_Store
+**/__pycache__/
+**/node_modules/
+**/dist/
+/tmp/
+
+# Go modules and build artifacts
+/go/pkg/mod/
+/go/bin/
+/go/src/
+
+# Docker files
+.dockerignore
+docker-compose.override.yml
