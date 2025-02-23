@@ -1,0 +1,268 @@
+basePath: /
+definitions:
+  domain.Community:
+    type: object
+  domain.Event:
+    type: object
+  domain.Participant:
+    type: object
+host: localhost:9393
+info:
+  contact:
+    email: suporte@meusistema.com
+    name: Suporte da API
+    url: http://meusistema.com/suporte
+  description: API para geração e validação de certificados.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://meusistema.com/termos/
+  title: API de Certificados
+  version: "1.0"
+paths:
+  /communities:
+    post:
+      consumes:
+      - application/json
+      description: ption Criar um novo Comunidadeo
+      parameters:
+      - description: Comunidade a ser criada
+        in: body
+        name: community
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Community'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Comunidade criada com sucesso!
+          schema:
+            type: string
+        "400":
+          description: Dados inválidos
+          schema:
+            type: string
+        "500":
+          description: Erro ao criar Comunidadeo
+          schema:
+            type: string
+      summary: Criar um novo Comunidadeo
+      tags:
+      - Comunidade
+  /community:
+    get:
+      consumes:
+      - application/json
+      description: Buscar todos os Comunidadeos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Community'
+            type: array
+      summary: Buscar todos os Comunidadeos
+      tags:
+      - Comunidade
+  /events:
+    get:
+      consumes:
+      - application/json
+      description: Buscar todos os eventos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Event'
+            type: array
+      summary: Buscar todos os eventos
+      tags:
+      - Eventos
+    post:
+      consumes:
+      - application/json
+      description: Cadastrar um novo evento
+      parameters:
+      - description: Evento a ser cadastrado
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Event'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Evento cadastrado com sucesso
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Dados inválidos
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Erro ao cadastrar evento
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cadastrar um novo evento
+      tags:
+      - Eventos
+  /events/{eventID}/participants:
+    get:
+      parameters:
+      - description: ID do evento
+        in: path
+        name: eventID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Participantes encontrados
+          schema:
+            items:
+              $ref: '#/definitions/domain.Participant'
+            type: array
+        "400":
+          description: ID do evento inválido
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Erro ao buscar participantes
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+  /participants:
+    get:
+      consumes:
+      - application/json
+      description: Buscar todos os participantes cadastrados
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Participantes encontrados
+          schema:
+            items:
+              $ref: '#/definitions/domain.Participant'
+            type: array
+        "500":
+          description: Erro ao buscar participantes
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Buscar todos os participantes
+      tags:
+      - Participantes
+    post:
+      consumes:
+      - application/json
+      description: Cadastrar um novo participante em um evento
+      parameters:
+      - description: Participante a ser cadastrado
+        in: body
+        name: participant
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Participant'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Participante cadastrado com sucesso
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Dados inválidos
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Erro ao cadastrar participante
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Cadastrar um novo participante
+      tags:
+      - Participantes
+  /participants/{id}:
+    get:
+      parameters:
+      - description: ID do participante
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Participante encontrado
+          schema:
+            $ref: '#/definitions/domain.Participant'
+        "400":
+          description: ID inválido
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Participante não encontrado
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+  /participants/validate:
+    get:
+      consumes:
+      - application/json
+      description: Valida um certificado pelo código UUID gerado
+      parameters:
+      - description: Código do certificado
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Certificado válido
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Código ausente
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Certificado não encontrado
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Valida um certificado
+      tags:
+      - Certificados
+schemes:
+- http
+swagger: "2.0"
